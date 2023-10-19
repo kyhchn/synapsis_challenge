@@ -7,7 +7,7 @@ class UserAnswerEntity {
 
 class Answer {
   String questionId;
-  String? answer;
+  int? answer;
 
   Answer({this.answer, required this.questionId});
 }

@@ -23,10 +23,54 @@ class SurveiDetailBloc extends Bloc<SurveiDetailEvent, SurveiDetailState> {
         });
         emit(SurveiDetailLoaded(
             surveiDetail: survei.data!,
-            userAnswerEntity:
-                UserAnswerEntity(surveyId: survei.data!.id, answers: answers)));
+            index: 0,
+            userAnswerEntity: UserAnswerEntity(
+              surveyId: survei.data!.id,
+              answers: answers,
+            )));
       } catch (e) {
         emit(SurveiDetailError(message: e.toString()));
+      }
+    });
+
+    on<NextQuestionEvent>((event, emit) {
+      if (state is SurveiDetailLoaded) {
+        SurveiDetailLoaded currentState = state as SurveiDetailLoaded;
+        if (currentState.index < currentState.totalQuestion - 1) {
+          print('next');
+          emit(SurveiDetailLoaded(
+              surveiDetail: currentState.surveiDetail,
+              userAnswerEntity: currentState.userAnswerEntity,
+              index: currentState.index + 1));
+        }
+      }
+    });
+
+    on<PreviousQuestionEvent>((event, emit) {
+      if (state is SurveiDetailLoaded) {
+        SurveiDetailLoaded currentState = state as SurveiDetailLoaded;
+        if (currentState.index > 0) {
+          emit(SurveiDetailLoaded(
+              surveiDetail: currentState.surveiDetail,
+              userAnswerEntity: currentState.userAnswerEntity,
+              index: currentState.index - 1));
+        }
+      }
+    });
+
+    on<AnswerQuestionEvent>((event, emit) {
+      if (state is SurveiDetailLoaded) {
+        SurveiDetailLoaded currentState = state as SurveiDetailLoaded;
+        List<Answer> answers = currentState.userAnswerEntity.answers;
+        answers[currentState.index] =
+            Answer(questionId: event.questionId, answer: event.answer);
+        emit(SurveiDetailLoaded(
+            surveiDetail: currentState.surveiDetail,
+            userAnswerEntity: UserAnswerEntity(
+              surveyId: currentState.userAnswerEntity.surveyId,
+              answers: answers,
+            ),
+            index: currentState.index));
       }
     });
   }
