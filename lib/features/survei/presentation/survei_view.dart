@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
+import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
+import 'package:synapsis_challenge/features/survei-detail/presentation/survei_detail_view.dart';
 import 'package:synapsis_challenge/features/survei/domain/entity/survei.dart';
 import 'package:synapsis_challenge/features/survei/presentation/bloc/home_bloc.dart';
 
@@ -10,8 +13,8 @@ class SurveiView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeBloc = BlocProvider.of<HomeBloc>(context);
-    homeBloc.add(CheckUser());
+    // final homeBloc = BlocProvider.of<HomeBloc>(context);
+    // homeBloc.add(CheckUser());
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -59,7 +62,7 @@ class SurveiView extends StatelessWidget {
                       itemCount: (state).surveis!.length,
                       itemBuilder: (context, index) {
                         final survei = (state).surveis![index];
-                        return surveiTile(survei);
+                        return surveiTile(survei, context);
                       },
                       separatorBuilder: (context, index) {
                         return SizedBox(
@@ -68,7 +71,7 @@ class SurveiView extends StatelessWidget {
                       },
                     );
                   } else {
-                    return const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   }
                 },
               ),
@@ -79,8 +82,17 @@ class SurveiView extends StatelessWidget {
     );
   }
 
-  ListTile surveiTile(SurveiEntity survei) {
+  ListTile surveiTile(SurveiEntity survei, BuildContext context) {
     return ListTile(
+      onTap: () {
+        final surveiDetailBloc = BlocProvider.of<SurveiDetailBloc>(context);
+        surveiDetailBloc.add(LoadDetailEvent(id: survei.id));
+        print('kons');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SurveiDetailView(survei: survei)));
+      },
       minVerticalPadding: 1.5.h,
       contentPadding: EdgeInsets.symmetric(
         horizontal: 1.5.h,
@@ -101,7 +113,11 @@ class SurveiView extends StatelessWidget {
             fontSize: 12,
             fontWeight: FontWeight.w500),
       ),
-      leading: const Icon(Icons.abc),
+      leading: SvgPicture.asset(
+        'assets/images/exam.svg',
+        width: 7.h,
+        height: 7.h,
+      ),
     );
   }
 }

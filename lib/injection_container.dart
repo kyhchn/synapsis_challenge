@@ -7,6 +7,11 @@ import 'package:synapsis_challenge/features/login/domain/repository/user_reposit
 import 'package:synapsis_challenge/features/login/domain/usecases/check_user_cache.dart';
 import 'package:synapsis_challenge/features/login/domain/usecases/user_login.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
+import 'package:synapsis_challenge/features/survei-detail/data/data_sources/survei_detail_api_service.dart';
+import 'package:synapsis_challenge/features/survei-detail/data/repository/survei_detail_repository_impl.dart';
+import 'package:synapsis_challenge/features/survei-detail/domain/repository/survei_detail_repository.dart';
+import 'package:synapsis_challenge/features/survei-detail/domain/usecases/get_survei_detail.dart';
+import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
 import 'package:synapsis_challenge/features/survei/data/data_sources/remote/survei_api_service.dart';
 import 'package:synapsis_challenge/features/survei/data/repository/survei_repository_impl.dart';
 import 'package:synapsis_challenge/features/survei/domain/repository/survei_repository.dart';
@@ -44,9 +49,16 @@ Future<void> initializeDependencies() async {
 
   sl.registerSingleton<SurveiRepository>(
       SurveiRepositoryImpl(surveiApiService: sl()));
-      
+
   sl.registerSingleton<GetSurveiUseCase>(
       GetSurveiUseCase(surveiRepository: sl()));
 
   sl.registerFactory<HomeBloc>(() => HomeBloc());
+  sl.registerSingleton<SurveiDetailApiService>(SurveiDetailApiService());
+  sl.registerSingleton<SurveiDetailRepository>(
+      SurveiDetailRepositoryImpl(surveiDetailApiService: sl()));
+  sl.registerSingleton<GetSurveiDetailUseCase>(
+      GetSurveiDetailUseCase(surveiDetailRepository: sl()));
+
+  sl.registerFactory<SurveiDetailBloc>(() => SurveiDetailBloc());
 }
