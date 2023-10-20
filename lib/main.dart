@@ -37,6 +37,11 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
+            radioTheme: RadioThemeData(
+              fillColor: MaterialStateProperty.all(SynapsisColor.primaryColor),
+              
+            ),
+            primarySwatch: SynapsisColor.primaryColor,
             colorScheme: ColorScheme.fromSeed(
                 seedColor: SynapsisColor.primaryColor,
                 background: Colors.white),

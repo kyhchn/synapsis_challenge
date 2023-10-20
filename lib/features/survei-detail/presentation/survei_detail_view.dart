@@ -1,10 +1,12 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/survei-detail/domain/entity/survei_detail.dart';
-import 'package:synapsis_challenge/features/survei-detail/domain/entity/user_answer.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
+import 'package:synapsis_challenge/features/survei-detail/presentation/question_popup.dart';
 import 'package:synapsis_challenge/features/survei/domain/entity/survei.dart';
 import 'package:synapsis_challenge/pages/widgets/button.dart';
 
@@ -76,31 +78,64 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 1.h, horizontal: 2.h),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.list_alt_outlined,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 0.5.h,
-                              ),
-                              Text(
-                                '${state.totalQuestionAnswered}/${state.totalQuestion}',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
+                        InkWell(
+                          onTap: () {
+                            final sliderItemCount =
+                                (state.totalQuestion / 20).ceil();
+                            showGeneralDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              transitionDuration:
+                                  const Duration(milliseconds: 300),
+                              barrierLabel:
+                                  MaterialLocalizations.of(context).dialogLabel,
+                              barrierColor: Colors.black.withOpacity(0.5),
+                              pageBuilder: (context, _, __) {
+                                return QuestionPopUp(
+                                    sliderItemCount: sliderItemCount,
+                                    state: state);
+                              },
+                              transitionBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.easeOut,
+                                  ).drive(Tween<Offset>(
+                                    begin: const Offset(0, -1.0),
+                                    end: Offset.zero,
+                                  )),
+                                  child: child,
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 1.h, horizontal: 2.h),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.list_alt_outlined,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 0.5.h,
+                                ),
+                                Text(
+                                  '${state.totalQuestionAnswered}/${state.totalQuestion}',
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
@@ -154,9 +189,13 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
                     height: 1,
                     color: const Color(0xFFF0ECEC),
                   ),
-                  ...question.options
-                      .map((e) => optionContainer(e, groupValue, context)),
-                  const Spacer(),
+                  Expanded(
+                    child: Column(
+                      children: question.options
+                          .map((e) => optionContainer(e, groupValue, context))
+                          .toList(),
+                    ),
+                  ),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.h),
@@ -212,7 +251,6 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
             child: Radio(
                 value: option.value,
                 groupValue: groupValue,
-                fillColor: MaterialStateProperty.all(SynapsisColor.primaryColor),
                 onChanged: (value) {
                   context.read<SurveiDetailBloc>().add(AnswerQuestionEvent(
                       questionId: option.id, answer: value!));
@@ -221,9 +259,11 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
           SizedBox(
             width: 1.h,
           ),
-          Text(option.optionName,
-              style: const TextStyle(
-                  fontSize: 15, color: SynapsisColor.primaryColorDark)),
+          Expanded(
+            child: Text(option.optionName,
+                style: const TextStyle(
+                    fontSize: 15, color: SynapsisColor.primaryColorDark)),
+          ),
         ],
       ),
     );
