@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/survei-detail/domain/entity/survei_detail.dart';
@@ -46,6 +47,11 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
           ),
         );
         //do remove until home
+
+        while ((context.canPop()) &&
+            (ModalRoute.of(context)!.settings.name != '/')) {
+          context.pop();
+        }
       }
     });
   }

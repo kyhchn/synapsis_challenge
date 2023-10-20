@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
@@ -90,7 +91,7 @@ class _QuestionPopUpState extends State<QuestionPopUp> {
                                   context.read<SurveiDetailBloc>().add(
                                       NavigateQuestionEvent(
                                           index: list[index]));
-                                  Navigator.pop(context);
+                                  context.pop();
                                 },
                                 child: Container(
                                     decoration: BoxDecoration(

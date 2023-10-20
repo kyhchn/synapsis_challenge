@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
+import 'package:synapsis_challenge/config/routes/routes.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
-import 'package:synapsis_challenge/features/login/presentation/login_view.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
 import 'package:synapsis_challenge/features/survei/presentation/bloc/survei_bloc.dart';
-import 'package:synapsis_challenge/features/survei/presentation/survei_view.dart';
 import 'package:synapsis_challenge/injection_container.dart';
 
 void main() async {
@@ -18,7 +17,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of your application.wk
+
   @override
   Widget build(BuildContext context) {
     return Sizer(
@@ -34,7 +34,10 @@ class MyApp extends StatelessWidget {
             create: (context) => sl(),
           ),
         ],
-        child: MaterialApp(
+        child: MaterialApp.router(
+          routerDelegate: router.routerDelegate,
+          routeInformationParser: router.routeInformationParser,
+          routeInformationProvider: router.routeInformationProvider,
           title: 'Flutter Demo',
           theme: ThemeData(
             radioTheme: RadioThemeData(
@@ -69,14 +72,6 @@ class MyApp extends StatelessWidget {
               suffixIconColor: const Color(0xFF9DA7AD),
             ),
             useMaterial3: true,
-          ),
-          home: BlocBuilder<LoginBloc, LoginState>(
-            builder: (context, state) {
-              if (state is LoginSuccess) {
-                return const SurveiView();
-              }
-              return const LoginView();
-            },
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
@@ -26,8 +27,7 @@ class SurveiView extends StatelessWidget {
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LogoutSuccess) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const LoginView()));
+            context.pushReplacement('/login');
           }
         },
         child: SafeArea(
@@ -96,10 +96,7 @@ class SurveiView extends StatelessWidget {
       onTap: () {
         final surveiDetailBloc = BlocProvider.of<SurveiDetailBloc>(context);
         surveiDetailBloc.add(LoadDetailEvent(id: survei.id));
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SurveiDetailView(survei: survei)));
+        context.push('/survei-detail', extra: survei);
       },
       minVerticalPadding: 1.5.h,
       contentPadding: EdgeInsets.symmetric(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
@@ -37,8 +38,7 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) async {
         if (state is LoginSuccess) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const SurveiView()));
+          context.pushReplacement('/');
         }
 
         if (state is LoginError) {
