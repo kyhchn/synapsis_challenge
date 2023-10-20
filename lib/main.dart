@@ -64,11 +64,11 @@ class MyApp extends StatelessWidget {
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: Colors.red.shade300),
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: BorderSide(width: 2, color: Colors.red.shade300),
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
               ),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.h),
