@@ -62,8 +62,13 @@ class SurveiDetailBloc extends Bloc<SurveiDetailEvent, SurveiDetailState> {
       if (state is SurveiDetailLoaded) {
         SurveiDetailLoaded currentState = state as SurveiDetailLoaded;
         List<Answer> answers = currentState.userAnswerEntity.answers;
-        answers[currentState.index] =
-            Answer(questionId: event.questionId, answer: event.answer);
+        if (event.answer == 0) {
+          answers[currentState.index] =
+              Answer(questionId: event.questionId, answer: null);
+        } else {
+          answers[currentState.index] =
+              Answer(questionId: event.questionId, answer: event.answer);
+        }
         emit(SurveiDetailLoaded(
             surveiDetail: currentState.surveiDetail,
             userAnswerEntity: UserAnswerEntity(

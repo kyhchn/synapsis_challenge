@@ -178,10 +178,22 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
                     width: double.infinity,
                     padding:
                         EdgeInsets.symmetric(vertical: 1.5.h, horizontal: 3.h),
-                    child: const Text(
-                      'Answer',
-                      style: TextStyle(
-                          color: SynapsisColor.primaryColorDark, fontSize: 15),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Answer',
+                          style: TextStyle(
+                              color: SynapsisColor.primaryColorDark,
+                              fontSize: 15),
+                        ),
+                        const Spacer(),
+                        SynapsisButton(
+                            content: 'Clear My Choice',
+                            type: SynapsisButtonType.secondary,
+                            onclick: () => context.read<SurveiDetailBloc>().add(
+                                AnswerQuestionEvent(
+                                    questionId: question.id, answer: 0)))
+                      ],
                     ),
                   ),
                   Container(
