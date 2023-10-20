@@ -17,7 +17,6 @@ class UserCacheService {
 
   UserModel? getUser() {
     final userString = sharedPrefs.getString('user');
-    print(userString);
     if (userString != null) {
       _user = UserModel.fromJson(jsonDecode(userString));
       return _user;

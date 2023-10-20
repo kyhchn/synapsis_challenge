@@ -26,7 +26,6 @@ class UserApiServiceImpl implements UserApiService {
         final token =
             response.headers['set-cookie']![0].split(";")[0].split("=")[1];
         user.token = token;
-        print(user.token);
         return DataSuccess(user);
       } else {
         return DataError(DioException(

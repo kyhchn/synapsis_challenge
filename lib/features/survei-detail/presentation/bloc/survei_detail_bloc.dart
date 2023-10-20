@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -18,9 +17,9 @@ class SurveiDetailBloc extends Bloc<SurveiDetailEvent, SurveiDetailState> {
         final survei =
             await sl<GetSurveiDetailUseCase>().call(params: event.id);
         List<Answer> answers = [];
-        survei.data!.questions.forEach((element) {
+        for (var element in survei.data!.questions) {
           answers.add(Answer(questionId: element.id));
-        });
+        }
         emit(SurveiDetailLoaded(
             surveiDetail: survei.data!,
             index: 0,
@@ -37,7 +36,6 @@ class SurveiDetailBloc extends Bloc<SurveiDetailEvent, SurveiDetailState> {
       if (state is SurveiDetailLoaded) {
         SurveiDetailLoaded currentState = state as SurveiDetailLoaded;
         if (currentState.index < currentState.totalQuestion - 1) {
-          print('next');
           emit(SurveiDetailLoaded(
               surveiDetail: currentState.surveiDetail,
               userAnswerEntity: currentState.userAnswerEntity,
