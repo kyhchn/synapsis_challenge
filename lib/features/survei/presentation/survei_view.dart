@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/themes/colors.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
@@ -103,6 +104,7 @@ class SurveiView extends StatelessWidget {
   }
 
   ListTile surveiTile(SurveiEntity survei, BuildContext context) {
+    final date = DateFormat('dd MMM yyyy').format(survei.createdAt);
     return ListTile(
       onTap: () {
         final surveiDetailBloc = BlocProvider.of<SurveiDetailBloc>(context);
@@ -123,7 +125,7 @@ class SurveiView extends StatelessWidget {
             color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500),
       ),
       subtitle: Text(
-        survei.createdAt.toString(),
+        'Created At: $date',
         style: const TextStyle(
             color: Color(0xFF107C41),
             fontSize: 12,
