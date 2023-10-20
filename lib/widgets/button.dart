@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:synapsis_challenge/config/colors.dart';
+import 'package:synapsis_challenge/config/themes/colors.dart';
 
 enum SynapsisButtonType {
   primary,

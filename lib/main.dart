@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:sizer/sizer.dart';
-import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/config/routes/routes.dart';
+import 'package:synapsis_challenge/config/themes/theme_data.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
 import 'package:synapsis_challenge/features/survei/presentation/bloc/survei_bloc.dart';
@@ -42,40 +42,7 @@ class MyApp extends StatelessWidget {
           routeInformationParser: router.routeInformationParser,
           routeInformationProvider: router.routeInformationProvider,
           title: 'Flutter Demo',
-          theme: ThemeData(
-            radioTheme: RadioThemeData(
-              fillColor: MaterialStateProperty.all(SynapsisColor.primaryColor),
-            ),
-            primarySwatch: SynapsisColor.primaryColor,
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: SynapsisColor.primaryColor,
-                background: Colors.white),
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            fontFamily: 'Inter',
-            inputDecorationTheme: InputDecorationTheme(
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(width: 1, color: Color(0xFFD6E4EC)),
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 2, color: SynapsisColor.primaryColor),
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1, color: Colors.red.shade300),
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.red.shade300),
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.h),
-              suffixIconColor: const Color(0xFF9DA7AD),
-            ),
-            useMaterial3: true,
-          ),
+          theme: theme(),
         ),
       ),
     );

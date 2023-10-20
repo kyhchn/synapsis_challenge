@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
-import 'package:synapsis_challenge/config/colors.dart';
+import 'package:synapsis_challenge/config/themes/colors.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
 import 'package:synapsis_challenge/features/survei/domain/entity/survei.dart';

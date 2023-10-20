@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
-import 'package:synapsis_challenge/config/colors.dart';
+import 'package:synapsis_challenge/config/themes/colors.dart';
 import 'package:synapsis_challenge/features/survei-detail/domain/entity/survei_detail.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/widgets/question_popup.dart';
