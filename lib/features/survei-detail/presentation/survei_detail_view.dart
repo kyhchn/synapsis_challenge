@@ -1,5 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -19,6 +19,37 @@ class SurveiDetailView extends StatefulWidget {
 }
 
 class _SurveiDetailViewState extends State<SurveiDetailView> {
+  DateTime? targetTime;
+  Duration countdownDuration = const Duration();
+  Timer? countdownTimer;
+
+  @override
+  void dispose() {
+    countdownTimer?.cancel();
+    super.dispose();
+  }
+
+  void startCountdown() {
+    targetTime = DateTime.now().add(const Duration(seconds: 60));
+    countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final now = DateTime.now();
+      if (targetTime!.isAfter(now)) {
+        setState(() {
+          countdownDuration = targetTime!.difference(now);
+        });
+      } else {
+        timer.cancel();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Time is up!'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+        //do remove until home
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +75,11 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
             }
 
             if (state is SurveiDetailLoaded) {
+              if (targetTime == null) {
+                startCountdown();
+              }
+              final seconds = countdownDuration.inSeconds % 60;
+
               Question question = state.surveiDetail.questions[state.index];
               int? groupValue =
                   state.userAnswerEntity.answers[state.index].answer;
@@ -70,12 +106,13 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
                             ),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: const Text(
-                            '45 Second left',
-                            style: TextStyle(
-                                color: SynapsisColor.primaryColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
+                          child: Text(
+                            '$seconds Second left',
+                            style: const TextStyle(
+                              color: SynapsisColor.primaryColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                         InkWell(
