@@ -8,7 +8,7 @@ import 'package:synapsis_challenge/features/login/domain/usecases/check_user_cac
 import 'package:synapsis_challenge/features/login/domain/usecases/remove_user_cache.dart';
 import 'package:synapsis_challenge/features/login/domain/usecases/user_login.dart';
 import 'package:synapsis_challenge/features/login/domain/usecases/write_user_cache.dart';
-import 'package:synapsis_challenge/features/survei/presentation/bloc/home_bloc.dart';
+import 'package:synapsis_challenge/features/survei/presentation/bloc/survei_bloc.dart';
 import 'package:synapsis_challenge/injection_container.dart';
 
 part 'login_event.dart';
@@ -19,7 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final CheckUserCacheUseCase checkUserCacheUseCase;
   final RemoveUserCacheUseCase removeUserCacheUseCase;
   final WriteUserCacheUseCase writeUserCache;
-  final homeBloc = sl<HomeBloc>();
+  final homeBloc = sl<SurveiBloc>();
   LoginBloc(this.userLoginUseCase, this.checkUserCacheUseCase,
       this.removeUserCacheUseCase, this.writeUserCache)
       : super(LoginInitial()) {

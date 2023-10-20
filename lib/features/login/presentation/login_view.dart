@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
 import 'package:synapsis_challenge/features/survei/presentation/survei_view.dart';
-import 'package:synapsis_challenge/pages/widgets/button.dart';
+import 'package:synapsis_challenge/widgets/button.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});

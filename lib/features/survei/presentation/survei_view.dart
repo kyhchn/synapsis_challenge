@@ -8,7 +8,7 @@ import 'package:synapsis_challenge/features/login/presentation/login_view.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/survei_detail_view.dart';
 import 'package:synapsis_challenge/features/survei/domain/entity/survei.dart';
-import 'package:synapsis_challenge/features/survei/presentation/bloc/home_bloc.dart';
+import 'package:synapsis_challenge/features/survei/presentation/bloc/survei_bloc.dart';
 
 class SurveiView extends StatelessWidget {
   const SurveiView({super.key});
@@ -55,9 +55,9 @@ class SurveiView extends StatelessWidget {
                 height: 2.h,
               ),
               Expanded(
-                child: BlocConsumer<HomeBloc, HomeState>(
+                child: BlocConsumer<SurveiBloc, SurveiState>(
                   listener: (context, state) {
-                    if (state is HomeError) {
+                    if (state is SurveiError) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(state.message),
                         backgroundColor: Colors.red,
@@ -65,7 +65,7 @@ class SurveiView extends StatelessWidget {
                     }
                   },
                   builder: (context, state) {
-                    if (state is HomeLoaded) {
+                    if (state is SurveiLoaded) {
                       return ListView.separated(
                         itemCount: (state).surveis!.length,
                         itemBuilder: (context, index) {

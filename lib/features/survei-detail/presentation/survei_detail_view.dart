@@ -8,7 +8,7 @@ import 'package:synapsis_challenge/features/survei-detail/domain/entity/survei_d
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/question_popup.dart';
 import 'package:synapsis_challenge/features/survei/domain/entity/survei.dart';
-import 'package:synapsis_challenge/pages/widgets/button.dart';
+import 'package:synapsis_challenge/widgets/button.dart';
 
 class SurveiDetailView extends StatefulWidget {
   final SurveiEntity survei;

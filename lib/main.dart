@@ -5,7 +5,7 @@ import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
 import 'package:synapsis_challenge/features/login/presentation/login_view.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
-import 'package:synapsis_challenge/features/survei/presentation/bloc/home_bloc.dart';
+import 'package:synapsis_challenge/features/survei/presentation/bloc/survei_bloc.dart';
 import 'package:synapsis_challenge/features/survei/presentation/survei_view.dart';
 import 'package:synapsis_challenge/injection_container.dart';
 
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<LoginBloc>(
             create: (context) => sl()..add(CheckLocalUser()),
           ),
-          BlocProvider<HomeBloc>(
+          BlocProvider<SurveiBloc>(
             create: (context) => sl(),
           ),
           BlocProvider<SurveiDetailBloc>(

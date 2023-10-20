@@ -18,7 +18,7 @@ import 'package:synapsis_challenge/features/survei/data/data_sources/remote/surv
 import 'package:synapsis_challenge/features/survei/data/repository/survei_repository_impl.dart';
 import 'package:synapsis_challenge/features/survei/domain/repository/survei_repository.dart';
 import 'package:synapsis_challenge/features/survei/domain/usecases/get_survei.dart';
-import 'package:synapsis_challenge/features/survei/presentation/bloc/home_bloc.dart';
+import 'package:synapsis_challenge/features/survei/presentation/bloc/survei_bloc.dart';
 import 'package:synapsis_challenge/services/user_cache_services.dart';
 
 final sl = GetIt.instance;
@@ -26,7 +26,7 @@ final sl = GetIt.instance;
 Future<void> initializeDependencies() async {
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  sl.registerSingleton<HomeBloc>(HomeBloc());
+  sl.registerSingleton<SurveiBloc>(SurveiBloc());
 
   sl.registerFactory(() => sharedPreferences);
 
