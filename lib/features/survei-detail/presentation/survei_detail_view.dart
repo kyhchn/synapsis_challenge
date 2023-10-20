@@ -7,7 +7,7 @@ import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/survei-detail/domain/entity/survei_detail.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
-import 'package:synapsis_challenge/features/survei-detail/presentation/question_popup.dart';
+import 'package:synapsis_challenge/features/survei-detail/presentation/widgets/question_popup.dart';
 import 'package:synapsis_challenge/features/survei/domain/entity/survei.dart';
 import 'package:synapsis_challenge/widgets/button.dart';
 
