@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/config/routes/routes.dart';
@@ -9,8 +10,10 @@ import 'package:synapsis_challenge/features/survei/presentation/bloc/survei_bloc
 import 'package:synapsis_challenge/injection_container.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await initializeDependencies();
+  await Future.delayed(const Duration(seconds: 1));
   runApp(const MyApp());
 }
 
