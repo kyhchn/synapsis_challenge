@@ -17,7 +17,13 @@ class QuestionPopUp extends StatefulWidget {
 }
 
 class _QuestionPopUpState extends State<QuestionPopUp> {
-  int index = 0;
+  late int index;
+  @override
+  void initState() {
+    index = (widget.state.index / 20).floor();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -122,6 +128,7 @@ class _QuestionPopUpState extends State<QuestionPopUp> {
                         );
                       },
                       options: CarouselOptions(
+                        initialPage: index,
                         onPageChanged: (carouselIndex, reason) {
                           setState(() {
                             index = carouselIndex;
