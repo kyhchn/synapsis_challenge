@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
@@ -78,36 +79,44 @@ class _QuestionPopUpState extends State<QuestionPopUp> {
                               bool isAnswered = widget.state.userAnswerEntity
                                       .answers[list[index]].answer !=
                                   null;
-                              return Container(
-                                  decoration: BoxDecoration(
-                                    color: isAnswered
-                                        ? SynapsisColor.primaryColor
-                                        : isCurrentIdx
-                                            ? SynapsisColor.primaryColor
-                                                .withOpacity(0.2)
-                                            : Colors.white,
-                                    border: Border.all(
-                                        color: isCurrentIdx
-                                            ? SynapsisColor.primaryColor
-                                            : isAnswered
-                                                ? Colors.transparent
-                                                : const Color(0xFF787878),
-                                        width: 1),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      (list[index] + 1).toString(),
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                          color: isAnswered
-                                              ? Colors.white
-                                              : isCurrentIdx
-                                                  ? SynapsisColor.primaryColor
-                                                  : const Color(0xFF787878)),
+                              return InkWell(
+                                onTap: () {
+                                  context.read<SurveiDetailBloc>().add(
+                                      NavigateQuestionEvent(
+                                          index: list[index]));
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: isAnswered
+                                          ? SynapsisColor.primaryColor
+                                          : isCurrentIdx
+                                              ? SynapsisColor.primaryColor
+                                                  .withOpacity(0.2)
+                                              : Colors.white,
+                                      border: Border.all(
+                                          color: isCurrentIdx
+                                              ? SynapsisColor.primaryColor
+                                              : isAnswered
+                                                  ? Colors.transparent
+                                                  : const Color(0xFF787878),
+                                          width: 1),
+                                      borderRadius: BorderRadius.circular(4),
                                     ),
-                                  ));
+                                    child: Center(
+                                      child: Text(
+                                        (list[index] + 1).toString(),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: isAnswered
+                                                ? Colors.white
+                                                : isCurrentIdx
+                                                    ? SynapsisColor.primaryColor
+                                                    : const Color(0xFF787878)),
+                                      ),
+                                    )),
+                              );
                             },
                           ),
                         );

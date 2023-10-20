@@ -38,3 +38,12 @@ class SubmitAnswerEvent extends SurveiDetailEvent {
 class NextQuestionEvent extends SurveiDetailEvent {}
 
 class PreviousQuestionEvent extends SurveiDetailEvent {}
+
+class NavigateQuestionEvent extends SurveiDetailEvent {
+  final int index;
+
+  const NavigateQuestionEvent({required this.index});
+
+  @override
+  List<Object> get props => [index];
+}

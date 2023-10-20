@@ -78,5 +78,15 @@ class SurveiDetailBloc extends Bloc<SurveiDetailEvent, SurveiDetailState> {
             index: currentState.index));
       }
     });
+
+    on<NavigateQuestionEvent>((event, emit) {
+      if (state is SurveiDetailLoaded) {
+        SurveiDetailLoaded currentState = state as SurveiDetailLoaded;
+        emit(SurveiDetailLoaded(
+            surveiDetail: currentState.surveiDetail,
+            userAnswerEntity: currentState.userAnswerEntity,
+            index: event.index));
+      }
+    });
   }
 }
