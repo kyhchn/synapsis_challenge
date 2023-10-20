@@ -1,11 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
-import 'package:synapsis_challenge/core/resources/request.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
-import 'package:synapsis_challenge/injection_container.dart';
 import 'package:synapsis_challenge/features/survei/presentation/survei_view.dart';
 import 'package:synapsis_challenge/pages/widgets/button.dart';
 
@@ -40,8 +37,8 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) async {
         if (state is LoginSuccess) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => SurveiView()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const SurveiView()));
         }
 
         if (state is LoginError) {
@@ -127,6 +124,7 @@ class _LoginViewState extends State<LoginView> {
                           type: SynapsisButtonType.primary,
                           onclick: () {
                             context.read<LoginBloc>().add(Login(
+                                isRemember: isRememberMe,
                                 email: emailController.text,
                                 password: passwordController.text));
                           },

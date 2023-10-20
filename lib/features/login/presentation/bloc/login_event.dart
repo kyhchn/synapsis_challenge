@@ -10,10 +10,12 @@ sealed class LoginEvent extends Equatable {
 class CheckLocalUser extends LoginEvent {}
 
 class Login extends LoginEvent {
+  final bool isRemember;
   final String email;
   final String password;
 
-  const Login({required this.email, required this.password});
+  const Login(
+      {required this.email, required this.password, this.isRemember = false});
 }
 
-
+class Logout extends LoginEvent {}

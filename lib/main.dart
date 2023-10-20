@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             create: (context) => sl()..add(CheckLocalUser()),
           ),
           BlocProvider<HomeBloc>(
-            create: (context) => sl()..add(CheckUser()),
+            create: (context) => sl(),
           ),
           BlocProvider<SurveiDetailBloc>(
             create: (context) => sl(),
@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             radioTheme: RadioThemeData(
               fillColor: MaterialStateProperty.all(SynapsisColor.primaryColor),
-              
             ),
             primarySwatch: SynapsisColor.primaryColor,
             colorScheme: ColorScheme.fromSeed(

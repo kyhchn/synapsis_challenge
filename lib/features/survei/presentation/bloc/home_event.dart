@@ -7,8 +7,8 @@ sealed class HomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SurveiRequested extends HomeEvent {}
+class UserIn extends HomeEvent {
+  final UserModel user;
 
-class Logout extends HomeEvent {}
-
-class CheckUser extends HomeEvent {}
+  const UserIn({required this.user});
+}

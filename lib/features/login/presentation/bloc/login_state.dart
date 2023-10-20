@@ -14,9 +14,11 @@ final class LoginInitial extends LoginState {}
 final class LoginLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
-  const LoginSuccess(UserEntity user) : super(user: user);
+  const LoginSuccess(UserModel user) : super(user: user);
 }
 
 final class LoginError extends LoginState {
   const LoginError(DioException exception) : super(exception: exception);
 }
+
+final class LogoutSuccess extends LoginState {}
