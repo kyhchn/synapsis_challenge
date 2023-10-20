@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_validator/form_validator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
@@ -42,124 +43,142 @@ class _LoginViewState extends State<LoginView> {
         }
 
         if (state is LoginError) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.exception!.message!),
-            backgroundColor: Colors.red,
-          ));
+          final statusCode = state.exception!.response!.statusCode;
+          if (statusCode == 400 || statusCode == 404) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.exception!.response!.data['message']),
+              backgroundColor: Colors.red,
+            ));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.exception!.message!),
+              backgroundColor: Colors.red,
+            ));
+          }
         }
       },
       child: Scaffold(
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 3.h),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                separator(),
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 1.25.h),
-                  child: const Text(
-                    'Login to Synapsis',
-                    style: TextStyle(
-                        color: SynapsisColor.primaryColorDark,
-                        fontSize: 21,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                separator(),
-                inputField(
-                    emailController, 'Email', TextInputType.emailAddress),
-                SizedBox(
-                  height: 2.h,
-                ),
-                inputField(passwordController, 'Password',
-                    TextInputType.visiblePassword,
-                    obscureText: isObscure, obscureHandler: obscureHandler),
-                SizedBox(
-                  height: 1.h,
-                ),
-                Row(
+            child: Form(
+              key: key,
+              child: SingleChildScrollView(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    separator(),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 1.25.h),
+                      child: const Text(
+                        'Login to Synapsis',
+                        style: TextStyle(
+                            color: SynapsisColor.primaryColorDark,
+                            fontSize: 21,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    separator(),
+                    inputField(
+                        emailController, 'Email', TextInputType.emailAddress,
+                        validator: ValidationBuilder()
+                            .email('Email Tidak Valid')
+                            .build()),
                     SizedBox(
-                      width: 2.h,
                       height: 2.h,
-                      child: Checkbox(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4)),
-                          side: const BorderSide(
-                              width: 1, color: Color(0xFFD0D7DE)),
-                          value: isRememberMe,
-                          onChanged: (value) {
-                            setState(() {
-                              isRememberMe = value!;
-                            });
-                          }),
                     ),
+                    inputField(passwordController, 'Password',
+                        TextInputType.visiblePassword,
+                        obscureText: isObscure, obscureHandler: obscureHandler),
                     SizedBox(
-                      width: 1.5.h,
+                      height: 1.h,
                     ),
-                    const Text(
-                      'Remember me',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          color: Color(0xFF757575)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 2.h,
+                          height: 2.h,
+                          child: Checkbox(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4)),
+                              side: const BorderSide(
+                                  width: 1, color: Color(0xFFD0D7DE)),
+                              value: isRememberMe,
+                              onChanged: (value) {
+                                setState(() {
+                                  isRememberMe = value!;
+                                });
+                              }),
+                        ),
+                        SizedBox(
+                          width: 1.5.h,
+                        ),
+                        const Text(
+                          'Remember me',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                              color: Color(0xFF757575)),
+                        )
+                      ],
+                    ),
+                    separator(),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: BlocBuilder<LoginBloc, LoginState>(
+                              builder: (context, state) {
+                                return SynapsisButton(
+                                  isLoading: state is LoginLoading,
+                                  content: 'Log in',
+                                  type: SynapsisButtonType.primary,
+                                  onclick: () {
+                                    if (key.currentState!.validate()) {
+                                      context.read<LoginBloc>().add(Login(
+                                          isRemember: isRememberMe,
+                                          email: emailController.text,
+                                          password: passwordController.text));
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          const Text(
+                            'or',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                                color: SynapsisColor.primaryColor),
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: SynapsisButton(
+                              content: 'Fingerprint',
+                              type: SynapsisButtonType.secondary,
+                              onclick: () {},
+                            ),
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
-                separator(),
-                SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: BlocBuilder<LoginBloc, LoginState>(
-                          builder: (context, state) {
-                            return SynapsisButton(
-                              isLoading: state is LoginLoading,
-                              content: 'Log in',
-                              type: SynapsisButtonType.primary,
-                              onclick: () {
-                                context.read<LoginBloc>().add(Login(
-                                    isRemember: isRememberMe,
-                                    email: emailController.text,
-                                    password: passwordController.text));
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      const Text(
-                        'or',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: SynapsisColor.primaryColor),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: SynapsisButton(
-                          content: 'Fingerprint',
-                          type: SynapsisButtonType.secondary,
-                          onclick: () {},
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
+              ),
             ),
           ),
         ),
@@ -169,7 +188,9 @@ class _LoginViewState extends State<LoginView> {
 
   Column inputField(TextEditingController controller, String label,
       TextInputType keyboardType,
-      {bool obscureText = false, void Function()? obscureHandler}) {
+      {bool obscureText = false,
+      void Function()? obscureHandler,
+      String? Function(String?)? validator}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,6 +205,7 @@ class _LoginViewState extends State<LoginView> {
         TextFormField(
           controller: controller,
           obscureText: obscureText,
+          validator: validator,
           keyboardType: keyboardType,
           decoration: InputDecoration(
             suffixIcon: keyboardType == TextInputType.visiblePassword
