@@ -21,3 +21,5 @@ final class SurveiError extends SurveiState {
   final String message;
   const SurveiError({required this.message});
 }
+
+final class SurveiEmpty extends SurveiState {}

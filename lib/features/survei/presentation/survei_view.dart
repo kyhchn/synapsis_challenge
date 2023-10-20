@@ -5,9 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:synapsis_challenge/config/colors.dart';
 import 'package:synapsis_challenge/features/login/presentation/bloc/login_bloc.dart';
-import 'package:synapsis_challenge/features/login/presentation/login_view.dart';
 import 'package:synapsis_challenge/features/survei-detail/presentation/bloc/survei_detail_bloc.dart';
-import 'package:synapsis_challenge/features/survei-detail/presentation/survei_detail_view.dart';
 import 'package:synapsis_challenge/features/survei/domain/entity/survei.dart';
 import 'package:synapsis_challenge/features/survei/presentation/bloc/survei_bloc.dart';
 
@@ -66,20 +64,33 @@ class SurveiView extends StatelessWidget {
                   },
                   builder: (context, state) {
                     if (state is SurveiLoaded) {
-                      return ListView.separated(
-                        itemCount: (state).surveis!.length,
-                        itemBuilder: (context, index) {
-                          final survei = (state).surveis![index];
-                          return surveiTile(survei, context);
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 1.h,
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          BlocProvider.of<SurveiBloc>(context).add(
+                            LoadSurvei(),
                           );
                         },
+                        child: ListView.separated(
+                          itemCount: (state).surveis!.length,
+                          itemBuilder: (context, index) {
+                            final survei = (state).surveis![index];
+                            return surveiTile(survei, context);
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              height: 1.h,
+                            );
+                          },
+                        ),
                       );
+                    } else if (state is SurveiError) {
+                      return Center(child: Text(state.message));
+                    } else if (state is SurveiEmpty) {
+                      return const Center(child: Text('Tidak ada survei'));
                     } else {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
                   },
                 ),

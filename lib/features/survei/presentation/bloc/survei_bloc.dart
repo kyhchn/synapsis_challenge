@@ -13,16 +13,29 @@ part 'survei_state.dart';
 class SurveiBloc extends Bloc<SurveiEvent, SurveiState> {
   SurveiBloc() : super(SurveiInitial()) {
     on<UserIn>((event, emit) async {
-      print(event.user.token!);
       emit(SurveiLoading());
       sl<Request>().setToken(event.user.token!);
-      final survei = await sl<GetSurveiUseCase>().call();
-      if (survei is DataSuccess && survei.data != null) {
-        print('emitting');
+      await fetch(emit);
+    });
+
+    on<LoadSurvei>((event, emit) async {
+      emit(SurveiLoading());
+      await fetch(emit);
+    });
+  }
+
+  Future<void> fetch(Emitter<SurveiState> emit) async {
+    final survei = await sl<GetSurveiUseCase>().call();
+    if (survei is DataSuccess) {
+      if (survei.data != null) {
         emit(SurveiLoaded(surveis: survei.data!));
       } else {
-        print('error');
+        emit(SurveiEmpty());
       }
-    });
+    } else if (survei is DataError) {
+      emit(SurveiError(message: survei.exception!.message!));
+    } else {
+      emit(const SurveiError(message: 'Unknown error'));
+    }
   }
 }

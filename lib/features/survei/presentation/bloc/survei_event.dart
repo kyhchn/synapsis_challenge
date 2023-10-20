@@ -12,3 +12,5 @@ class UserIn extends SurveiEvent {
 
   const UserIn({required this.user});
 }
+
+class LoadSurvei extends SurveiEvent {}
