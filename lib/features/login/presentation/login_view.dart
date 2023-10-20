@@ -119,14 +119,19 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       SizedBox(
                         width: double.infinity,
-                        child: SynapsisButton(
-                          content: 'Log in',
-                          type: SynapsisButtonType.primary,
-                          onclick: () {
-                            context.read<LoginBloc>().add(Login(
-                                isRemember: isRememberMe,
-                                email: emailController.text,
-                                password: passwordController.text));
+                        child: BlocBuilder<LoginBloc, LoginState>(
+                          builder: (context, state) {
+                            return SynapsisButton(
+                              isLoading: state is LoginLoading,
+                              content: 'Log in',
+                              type: SynapsisButtonType.primary,
+                              onclick: () {
+                                context.read<LoginBloc>().add(Login(
+                                    isRemember: isRememberMe,
+                                    email: emailController.text,
+                                    password: passwordController.text));
+                              },
+                            );
                           },
                         ),
                       ),
