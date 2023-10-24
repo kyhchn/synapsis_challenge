@@ -246,9 +246,15 @@ class _SurveiDetailViewState extends State<SurveiDetailView> {
                   ),
                   Expanded(
                     child: Column(
-                      children: question.options
-                          .map((e) => optionContainer(e, groupValue, context))
-                          .toList(),
+                      children: question.options != null
+                          ? question.options!
+                              .map((e) =>
+                                  optionContainer(e, groupValue, context))
+                              .toList()
+                          : [
+                              const Expanded(
+                                  child: Center(child: Text('Soal Bonus')))
+                            ],
                     ),
                   ),
                   Padding(

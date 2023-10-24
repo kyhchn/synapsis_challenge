@@ -26,7 +26,7 @@ class Question {
   String inputType;
   String questionName;
   String questionSubject;
-  List<Option> options;
+  List<Option>? options;
 
   Question({
     required this.id,
@@ -36,7 +36,7 @@ class Question {
     required this.inputType,
     required this.questionName,
     required this.questionSubject,
-    required this.options,
+    this.options,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -48,9 +48,11 @@ class Question {
       inputType: json['input_type'],
       questionName: json['question_name'],
       questionSubject: json['question_subject'],
-      options: json['options']
-          .map<Option>((option) => Option.fromJson(option))
-          .toList(),
+      options: json['options'] != null
+          ? json['options']
+              .map<Option>((option) => Option.fromJson(option))
+              .toList()
+          : null,
     );
   }
 }
